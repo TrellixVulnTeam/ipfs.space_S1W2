@@ -1,0 +1,3 @@
+var PRICE_PER_GB_DAY = 0.5/31;
+var USD_TO_ETH = 0.001;
+var ETH_TO_USD = 1000;

@@ -4,7 +4,8 @@
     "css/app.css": ["app/css/**"],
     "js/app.js": ["embark.js", "app/js/**"],
     "index.html": "app/index.html",
-    "signup.html": "app/signup.html"
+    "signup.html": "app/signup.html",
+    "manage.html": "app/manage.html"
   },
   "buildDir": "dist/",
   "config": "config/",

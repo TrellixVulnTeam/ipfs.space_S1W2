@@ -25,6 +25,92 @@
       "0x607796cf7d54f7f94dd1f7454c7443515ee5b4e6f8a108d8a1f0d9080ffa624a": {
         "name": "App",
         "address": "0x23fac7f721b98b41df1479080250e8671763cab7"
+      },
+      "0x854b9d067ce13174d94e3e63568b97196138b7b5b673423ee8a588fff986e6d0": {
+        "name": "App",
+        "address": "0x8c877e07d79ce8abdabb5e449071f3b357d2f16c"
+      },
+      "0x6617d75dc853b848c5ba9dd385d81a7172d72dcf4e02dc74e0a7eff304635a2b": {
+        "name": "App",
+        "address": "0x99e199d322a0acf285893a56afececc5eb1db020"
+      },
+      "0x91a4915c57ad776f7ffb26b2ef184574bc136354bc9762ffe81b348905cb9be2": {
+        "name": "App",
+        "address": "0xf8f371a97488c5d11dc91ea923a035f9cd2af898"
+      }
+    },
+    "name": "development"
+  },
+  "0x44a64f6524b7f340909d1457c9d47bfaf64890445d03ba8bd9c80be12fef58af": {
+    "contracts": {
+      "0x93be0fd9599cd2b9028f6aa94bb86d3f99152ef6bbce685d26f04dc0b772dd09": {
+        "name": "App",
+        "address": "0xd840e0549793fe2a3dd2365588825dc0e8c82141"
+      },
+      "0x382f28106793ba3e33fb313db05de0404b99b5e1d809da54e88d014822beb218": {
+        "name": "App",
+        "address": "0xc6444e35aab8b79e6bc4f8a34e5e9ba858b9374a"
+      },
+      "0xf0d85d670a8cd6fb08c3b276bba9f0a775c7f5f2ddeb15d947fc3e0afa548f90": {
+        "name": "App",
+        "address": "0x3604b6e7295e4aa54e4d4f9c03d6959637fc1400"
+      },
+      "0x2f0f8d46387a9b42f55dffcb552aed244e63bfc8bb5ffd1dbf76fead7ec6fc20": {
+        "name": "App",
+        "address": "0x21fc06bcac15cea77e4408e7475275239a0b7501"
+      },
+      "0xce3fddd3e8c7d0d126b46dd06ce279b2ae5663a72a674532b4fbe097d432308f": {
+        "name": "App",
+        "address": "0x19e6f02cd235bcabcaf10572a2821f2bb0bae22a"
+      },
+      "0x34f7ddc760ef9ed86d82ea4eeda2450cf8b8ef08de7fd252fe27fa1964241409": {
+        "name": "App",
+        "address": "0xbbe0bd10a6fc47a804e3968313850a6dc040d32c"
+      },
+      "0x1bfd944aa8fd9539c48e2f3a20d5e360b0bff8ad570d3881950edb5cee4d2173": {
+        "name": "App",
+        "address": "0x22af48fa047029a2411e22527364c53db85ab396"
+      },
+      "0xd8c973d60fff3bd9b7680f7d89efad0489783a48ec1a54f43c15abc2c73906d4": {
+        "name": "App",
+        "address": "0xa6e148904fed76d1be4ad5356947568845080966"
+      },
+      "0xe8f7eefbc099548b2de6f21a994980fed6d28258b9021ad73010c79e1d47ffad": {
+        "name": "App",
+        "address": "0x5d3787d30e10639681ef490ae891fcc9992812ab"
+      }
+    },
+    "name": "development"
+  },
+  "0xa222a5cc10a29ff4b0b3a08da8a0b10bb889150aee73ebd67e34604a96aa50bd": {
+    "contracts": {
+      "0xe8f7eefbc099548b2de6f21a994980fed6d28258b9021ad73010c79e1d47ffad": {
+        "name": "App",
+        "address": "0x61420f44853deaa226a390bb331b05b790d818cf"
+      },
+      "0xef8946c19e683368a68f86ca62db4ecc24f0ef494f2c6096f0ae21758b941b2e": {
+        "name": "App",
+        "address": "0xae0807ebd6dcb2c3e5cb661c51ab138b45933f70"
+      },
+      "0xf76b29f525490a30fd5069c03876840ed7412d62a89991dfb5fd2170891eda1c": {
+        "name": "App",
+        "address": "0x801c168915acddf2023464e2ccf18d4a7b52acda"
+      },
+      "0xef4b76ef79c48f662bf6108ff8c3a1633269c9f736ff92dcd15d4f31316b9925": {
+        "name": "App",
+        "address": "0x4d4e5446a53eb57f1fe5ee16a51218f3e3b6a258"
+      },
+      "0x135b8fcd104a3553274f172b0baabf835dfe0e61c7c246b4c4aa07c57c3364e6": {
+        "name": "App",
+        "address": "0xc4e3950f8a433a93470445c155d6766006850f62"
+      },
+      "0x8bed84ee710134e115583c6f7d778c773049dec290598f5f295a4c3e3322260a": {
+        "name": "App",
+        "address": "0x078f97f996e2000711db41f81c23b6e1f7df045c"
+      },
+      "0x42def295ff4a63fb3bb434df5e69f06e9f2e915947d9cd5edb3c5a97830e6eea": {
+        "name": "App",
+        "address": "0xbe33645d0fb7eaabd0e662ede626b1e2d98b525d"
       }
     },
     "name": "development"

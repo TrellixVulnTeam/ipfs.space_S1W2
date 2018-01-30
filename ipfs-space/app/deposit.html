@@ -12,16 +12,25 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
         <!-- loading the minified version -->
         <script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
         <script src="js/app.js"></script>
+
+        <script>
+
+        </script>
+
     </head>
     <body>
         <div class="container">
             <ul class="nav justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Get started</a>
+                    <a class="nav-link active" href="signup.html">Sign up</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Manage files</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="deposit.html">Deposit</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">API</a>
@@ -33,5 +42,32 @@
             <h1 class="display-5">🚀 ipfs.space</h1>
             <p class="lead">Pinning service for IPFS. Hosting for the distributed web.</p>
         </div>
+
+        <div class="container mt-5">
+            <h4>Deposit</h4>
+
+            <p>Billing is based on usage and will be deducted from your balance over time. The rate is $0.50 per GB of storage per month.</p>
+
+            <p>Currently, we accept Ethereum for deposits and you will need the MetaMask plugin. Other forms of payment will be accepted in the future.</p>
+
+            <hr>
+            <form>
+                <div class="form-group">
+                    <label for="confirm-price">Deposit amount</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input type="text" class="form-control" id="confirm-price" placeholder="N/A" readonly>
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary">Pay</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+        </div>
+
+
     </body>
 </html>

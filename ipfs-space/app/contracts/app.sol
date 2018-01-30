@@ -4,19 +4,19 @@ import "./pin.sol";
 
 contract App {
     // Wallet address of ipfs.space
-    address public overlordAddr;
-    // Map of wallet address to Pin contract addresses
-    mapping(address => address[]) accounts;
+    address public paymentAddress;
+    address[] pins;
 
-    function getAccount() public constant returns(address[]) {
-        return accounts[msg.sender];
+    function App() public {
+        paymentAddress = address(0x1234567);
     }
 
     function addPin(string fileHash) public payable {
-        Pin newPin = (new Pin).value(msg.value)(address(this), msg.sender, fileHash);
-        accounts[msg.sender].push(newPin);
+        Pin pin = (new Pin).value(msg.value)(address(this), fileHash);
+        pins.push(pin);
     }
 
-    /* function removePin(address pinAddr) public {
-    } */
+    function getPins() public constant returns (address[]) {
+        return pins;
+    }
 }
