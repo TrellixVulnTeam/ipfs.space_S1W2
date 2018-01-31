@@ -81,10 +81,12 @@
                     var eth = usd * USD_TO_ETH;
                     var wei = web3.utils.toWei(eth, 'ether');
 
+                    var gasEstimate = App.methods.addPin(fileHash).estimateGas()
+
                     App.methods.addPin(fileHash).send({
                         from: WEB3_ACTIVE_ACCOUNT,
                         value: wei,
-                        gas: 900000
+                        gas: gasEstimate
                     }).then(function(){
                         console.log("Added pin successfully");
                     });

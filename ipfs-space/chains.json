@@ -114,5 +114,23 @@
       }
     },
     "name": "development"
+  },
+  "0xe7d659cc50acf5933f418812ca8f6d7eda70b78f4f862747a0fa65b2cc11b61e": {
+    "contracts": {
+      "0x42def295ff4a63fb3bb434df5e69f06e9f2e915947d9cd5edb3c5a97830e6eea": {
+        "name": "App",
+        "address": "0xaf84a2a144a8ec15ea412a1d5a955063a39c0a3a"
+      }
+    },
+    "name": "development"
+  },
+  "0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d": {
+    "contracts": {
+      "0x42def295ff4a63fb3bb434df5e69f06e9f2e915947d9cd5edb3c5a97830e6eea": {
+        "name": "App",
+        "address": "0x64638292cf1B49623eE1f820D9ff1a6D81dc16B1"
+      }
+    },
+    "name": "testnet"
   }
 }
