@@ -8,7 +8,7 @@ $action = $_GET['a'];
 
 switch($action) {
     case 'ls':
-        die(file_get_contents(API_URL . 'pin/ls?type=direct'));
+        die(file_get_contents(API_URL . 'pin/ls'));
     case 'add':
         $hash = $_GET['h'];
         die(file_get_contents(API_URL . 'pin/add?arg=' . $hash . '&recursive=true&progress=false'));

@@ -131,6 +131,15 @@
         "address": "0x64638292cf1B49623eE1f820D9ff1a6D81dc16B1"
       }
     },
-    "name": "testnet"
+    "name": "development"
+  },
+  "0x2d360eb51f09ca42d060e88bf7e73910cc09c7596bf088d38aa66f621ccfc765": {
+    "contracts": {
+      "0x42def295ff4a63fb3bb434df5e69f06e9f2e915947d9cd5edb3c5a97830e6eea": {
+        "name": "App",
+        "address": "0x64638292cf1B49623eE1f820D9ff1a6D81dc16B1"
+      }
+    },
+    "name": "development"
   }
 }
