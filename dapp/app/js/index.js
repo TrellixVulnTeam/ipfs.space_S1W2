@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import EmbarkJS from 'Embark/EmbarkJS';
-import Main from './main.js';
+import App from './components/app.js';
+import { HashRouter } from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+ReactDOM.render(
+  <HashRouter>
+    <App />
+  </HashRouter>,
+  document.getElementById('root')
+);

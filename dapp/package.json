@@ -20,10 +20,12 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "bootstrap": "4.0.0",
+    "firebase": "^4.9.1",
     "react": "^16.0.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-web3": "^0.4.4",
     "reactstrap": "^5.0.0-beta",
     "web3": "1.0.0-beta.27",
     "webpack": "^3.11.0"
