@@ -11,13 +11,13 @@ class Login extends Component {
       password: ""
     };
 
-    this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.handleSignupClick = this.handleSignupClick.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.loginClicked = this.loginClicked.bind(this);
+    this.signupClicked = this.signupClicked.bind(this);
+    this.emailChanged = this.emailChanged.bind(this);
+    this.passwordChanged = this.passwordChanged.bind(this);
   }
 
-  handleLoginClick() {
+  loginClicked() {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
       this.props.history.push('/manage');
     }.bind(this), function(error) {
@@ -25,7 +25,7 @@ class Login extends Component {
     }.bind(this));
   }
 
-  handleSignupClick() {
+  signupClicked() {
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function() {
       this.props.history.push('/manage');
     }.bind(this), function(error) {
@@ -33,11 +33,11 @@ class Login extends Component {
     }.bind(this));
   }
 
-  handleEmailChange(evt) {
+  emailChanged(evt) {
     this.setState({email: evt.target.value});
   }
 
-  handlePasswordChange(evt) {
+  passwordChanged(evt) {
     this.setState({password: evt.target.value});
   }
 
@@ -47,12 +47,12 @@ class Login extends Component {
           <Form>
               <FormGroup>
                   <Label for="email">Email address</Label>
-                  <Input id="email" type="email" placeholder="Enter email" onChange={this.handleEmailChange}/>
+                  <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
                   <small className="form-text text-muted">We will never share your email with anyone else.</small>
               </FormGroup>
               <FormGroup>
                   <Label for="pass">Password</Label>
-                  <Input id="pass" type="password" placeholder="Password" onChange={this.handlePasswordChange}/>
+                  <Input id="pass" type="password" placeholder="Password" onChange={this.passwordChanged}/>
               </FormGroup>
               <FormGroup check>
                   <Label check>
@@ -60,8 +60,8 @@ class Login extends Component {
                     Keep me logged in
                   </Label>
               </FormGroup>
-              <Button outline color="primary" onClick={this.handleLoginClick}>Login</Button>{' '}
-              <Button outline color="secondary" onClick={this.handleSignupClick}>Signup</Button>
+              <Button outline color="primary" onClick={this.loginClicked}>Login</Button>{' '}
+              <Button outline color="secondary" onClick={this.signupClicked}>Signup</Button>
           </Form>
       </Container>
     );

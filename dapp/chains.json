@@ -25,5 +25,14 @@
       }
     },
     "name": "development"
+  },
+  "0xc4ed17d7552f8df081de9629c2fcf0d072b1846d6fecb40e58caf0c7fd96f7c4": {
+    "contracts": {
+      "0x5097c3f3c8d0368cb5175b396fe098658c1f34678bb5b1f44e5cabd3062bd999": {
+        "name": "App",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
   }
 }

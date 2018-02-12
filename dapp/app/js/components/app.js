@@ -10,16 +10,19 @@ import Home from "./home.js";
 import Manage from "./manage.js";
 import Login from "./login.js";
 import Help from "./help.js";
+import DepositModal from "./depositmodal.js";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoggedIn: true
+      isLoggedIn: true,
+      depositModalIsOpen: false
     };
 
-    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+    this.logoutClicked = this.logoutClicked.bind(this);
+    this.depositClicked = this.depositClicked.bind(this);
 
     const config = {
         apiKey: "AIzaSyDyAmz2ahqbA4JN4xDydRij7ju3m6_QxhQ",
@@ -41,10 +44,14 @@ class App extends Component {
     }.bind(this));
   }
 
-  handleLogoutClick() {
+  logoutClicked() {
     firebase.auth().signOut().then(function(){
       this.props.history.push('/login');
     }.bind(this));
+  }
+
+  depositClicked() {
+    this.setState({depositModalIsOpen: true});
   }
 
   render() {
@@ -56,7 +63,7 @@ class App extends Component {
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>Balance</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem href="#">Deposit</DropdownItem>
+              <DropdownItem href="#" onClick={this.depositClicked}>Deposit</DropdownItem>
               <DropdownItem href="#">Activity</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -64,7 +71,7 @@ class App extends Component {
             <NavLink tag={Link} to="/manage">Manage</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to="#" onClick={this.handleLogoutClick}>Logout</NavLink>
+            <NavLink tag={Link} to="#" onClick={this.logoutClicked}>Logout</NavLink>
           </NavItem>
           <NavItem>
             <NavLink tag={Link} to="/help">Help</NavLink>
@@ -97,6 +104,8 @@ class App extends Component {
             <Route path="/login" component={Login}/>
             <Route path="/help" component={Help}/>
           </Container>
+
+          <DepositModal isOpen={this.state.depositModalIsOpen}/>
         </Container>
     );
   }
