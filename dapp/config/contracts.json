@@ -15,6 +15,7 @@
     ],
     "gas": "auto",
     "contracts": {
+      "AppContract": {}
     }
   }
 }

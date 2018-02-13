@@ -1,6 +1,6 @@
 pragma solidity ^0.4.7;
 
-contract App {
+contract AppContract {
     // Wallet address of ipfs.space
     address public paymentAddress;
 
