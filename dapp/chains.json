@@ -1,18 +1,9 @@
 {
-  "0xb3fa42193e373da7ddc79dfaa2b6d4546181a868a0cc7e2c0517dcade3e2827e": {
+  "0x218f66a1478d0e11138277eb11c6c6721a4488c0f95c935d4def92884ea18ac5": {
     "contracts": {
       "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
         "name": "AppContract",
-        "address": "0x494748735312D87C54Ff36E9dc71f90fb800D7Df"
-      }
-    },
-    "name": "development"
-  },
-  "0x7fdc4344031174718d744b7502255e6e70a1e69c3063ffe05f9254097c980730": {
-    "contracts": {
-      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
-        "name": "AppContract",
-        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+        "address": "0xd8a512EBD6fd82f44dFFD968EEB0835265497d20"
       }
     },
     "name": "development"

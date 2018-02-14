@@ -26,8 +26,13 @@ class Login extends Component {
   }
 
   signupClicked() {
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function() {
-      this.props.history.push('/manage');
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function(user) {
+      firebase.database().ref('users/' + user.uid).set({
+        uid: user.uid,
+        email: user.email
+      }).then(function(){
+        this.props.history.push('/manage');
+      }.bind(this));
     }.bind(this), function(error) {
       console.log('Erorr signing up: ' + error);
     }.bind(this));
