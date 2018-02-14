@@ -5,6 +5,7 @@ import {
   DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
 import EmbarkJS from 'Embark/EmbarkJS';
+import AppContract from 'Embark/contracts/AppContract';
 import firebase from 'firebase';
 import Home from "./home.js";
 import Manage from "./manage.js";
@@ -18,11 +19,14 @@ class App extends Component {
 
     this.state = {
       isLoggedIn: true,
-      depositModalIsOpen: false
+      depositModalIsOpen: false,
+      accountBalance: 0
     };
 
     this.logoutClicked = this.logoutClicked.bind(this);
     this.depositClicked = this.depositClicked.bind(this);
+    this.onDepositModalDismissed = this.onDepositModalDismissed.bind(this);
+    this.refreshBalance = this.refreshBalance.bind(this);
 
     const config = {
         apiKey: "AIzaSyDyAmz2ahqbA4JN4xDydRij7ju3m6_QxhQ",
@@ -38,6 +42,7 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.setState({isLoggedIn: true});
+        this.refreshBalance();
       } else {
         this.setState({isLoggedIn: false});
       }
@@ -54,6 +59,21 @@ class App extends Component {
     this.setState({depositModalIsOpen: true});
   }
 
+  refreshBalance() {
+    var uid = firebase.auth().currentUser.uid;
+    AppContract.methods.getBalance(uid).call(function(err, balance) {
+      if (err) {
+        console.log("Error getting balance: " + err);
+      } else {
+        this.setState({accountBalance: balance})
+      }
+    }.bind(this));
+  }
+
+  onDepositModalDismissed() {
+    this.setState({depositModalIsOpen: false});
+  }
+
   render() {
     let nav;
 
@@ -61,7 +81,7 @@ class App extends Component {
       nav = (
         <Nav>
           <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>Balance</DropdownToggle>
+            <DropdownToggle nav caret>Balance: {web3.utils.fromWei(String(this.state.accountBalance), 'ether')} ETH</DropdownToggle>
             <DropdownMenu>
               <DropdownItem href="#" onClick={this.depositClicked}>Deposit</DropdownItem>
               <DropdownItem href="#">Activity</DropdownItem>
@@ -92,21 +112,21 @@ class App extends Component {
     }
 
     return (
+      <Container>
+        <Navbar>
+          <NavbarBrand tag={Link} to="/">🚀 ipfs.space</NavbarBrand>
+          {nav}
+        </Navbar>
+
         <Container>
-          <Navbar>
-            <NavbarBrand tag={Link} to="/">🚀 ipfs.space</NavbarBrand>
-            {nav}
-          </Navbar>
-
-          <Container>
-            <Route exact path="/" component={Home}/>
-            <Route path="/manage" component={Manage}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/help" component={Help}/>
-          </Container>
-
-          <DepositModal isOpen={this.state.depositModalIsOpen}/>
+          <Route exact path="/" component={Home}/>
+          <Route path="/manage" component={Manage}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/help" component={Help}/>
         </Container>
+
+        <DepositModal isOpen={this.state.depositModalIsOpen} onDismiss={this.onDepositModalDismissed}/>
+      </Container>
     );
   }
 }

@@ -4,7 +4,7 @@ import {
   FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText, Label
 } from 'reactstrap';
 import firebase from 'firebase';
-import constants from './constants.js';
+import Constants from './constants.js';
 import EmbarkJS from 'Embark/EmbarkJS';
 import AppContract from 'Embark/contracts/AppContract';
 
@@ -13,7 +13,6 @@ class DepositModal extends Component {
     super(props);
 
     this.state = {
-      isOpen: props.isOpen,
       amount: 0,
       dollarEstimate: 0
     }
@@ -23,16 +22,16 @@ class DepositModal extends Component {
     this.amountChanged = this.amountChanged.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({isOpen: nextProps.isOpen});
-  }
-
-  cancelClicked() {
+  cancelClicked(evt) {
     this.setState({
-      isOpen: false,
       amount: 0,
       dollarEstimate: 0
     });
+
+    // notify that modal has been dismissed.
+    if (typeof this.props.onDismiss === 'function') {
+      this.props.onDismiss();
+    }
   }
 
   payClicked() {
@@ -41,8 +40,6 @@ class DepositModal extends Component {
       var account = accounts[0];
       var amount = this.state.amount;
       var wei = web3.utils.toWei(String(amount), 'ether');
-
-      debugger;
 
       // TODO: estimate gas
       // var gasEstimate = App.methods.addPin(fileHash).estimateGas()
@@ -62,31 +59,31 @@ class DepositModal extends Component {
 
     this.setState({
       amount: amount,
-      dollarEstimate: amount * constants.ETH_TO_USD
+      dollarEstimate: amount * Constants.ETH_TO_USD
     });
   }
 
   render() {
     return (
-      <Modal isOpen={this.state.isOpen}>
+      <Modal isOpen={this.props.isOpen}>
         <ModalHeader>Deposit</ModalHeader>
         <ModalBody>
-            <Form>
-                <FormGroup>
-                    <Label for="deposit-amount">Amount</Label>
-                    <InputGroup>
-                        <Input id="deposit-amount" placeholder="0.000" onChange={this.amountChanged}/>
-                        <InputGroupAddon addonType="append">
-                            <InputGroupText>ETH</InputGroupText>
-                        </InputGroupAddon>
-                    </InputGroup>
-                    <small className="form-text text-muted">~${this.state.dollarEstimate}</small>
-                </FormGroup>
-            </Form>
+          <Form>
+            <FormGroup>
+              <Label for="deposit-amount">Amount</Label>
+              <InputGroup>
+                <Input id="deposit-amount" placeholder="0.000" onChange={this.amountChanged}/>
+                <InputGroupAddon addonType="append">
+                  <InputGroupText>ETH</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+              <small className="form-text text-muted">~${this.state.dollarEstimate}</small>
+            </FormGroup>
+          </Form>
         </ModalBody>
         <ModalFooter>
-            <Button color="primary" onClick={this.payClicked}>Pay</Button>{' '}
-            <Button color="secondary" onClick={this.cancelClicked}>Cancel</Button>
+          <Button color="primary" onClick={this.payClicked}>Pay</Button>{' '}
+          <Button color="secondary" onClick={this.cancelClicked}>Cancel</Button>
         </ModalFooter>
       </Modal>
     );

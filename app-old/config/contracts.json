@@ -15,8 +15,7 @@
     ],
     "gas": "auto",
     "contracts": {
-        "App": {
-        }
+  
     }
   }
 }
