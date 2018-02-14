@@ -33,20 +33,7 @@ var Manage = {
     },
 
     // confirmPin: function() {
-    //     var fileHash = $('#file-hash').val();
-    //     ipfs.object.stat(fileHash, function(err, stat) {
-    //         if (!err) {
-    //             console.log(stat);
-    //
-    //             var fileSize = stat.CumulativeSize/1000000000;
-    //             $('#confirm-file-hash').val(fileHash);
-    //             $('#confirm-file-size').val(fileSize);
-    //             $('#confirm-price').val();
-    //             $('#pin-modal').modal('show');
-    //         } else {
-    //             console.log(err);
-    //         }
-    //     });
+
     // },
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Button, Table, InputGroup } from 'reactstrap';
 import firebase from 'firebase';
+import AddPinModal from './addpinmodal.js';
 
 class Manage extends Component {
 
@@ -8,12 +9,14 @@ class Manage extends Component {
     super(props);
 
     this.state =  {
-      pins: {}
+      pins: {},
+      addPinModalIsOpen: false
     };
 
     this.refreshPins = this.refreshPins.bind(this);
     this.addPinClicked = this.addPinClicked.bind(this);
     this.refreshClicked = this.refreshClicked.bind(this);
+    this.addPinModalDismissed = this.addPinModalDismissed.bind(this);
   }
 
   refreshPins() {
@@ -25,12 +28,21 @@ class Manage extends Component {
   }
 
   addPinClicked() {
-    //firebase.database()
-    console.log("add pin");
+    this.setState({addPinModalIsOpen: true});
+  }
+
+  removePinClicked(key) {
+    const uid = firebase.auth().currentUser.uid;
+    firebase.database().ref('/pins/' + uid + '/' + key).remove();
+    this.refreshPins();
   }
 
   refreshClicked() {
     this.refreshPins();
+  }
+
+  addPinModalDismissed() {
+    this.setState({addPinModalIsOpen: false});
   }
 
   render() {
@@ -42,7 +54,7 @@ class Manage extends Component {
           <td className="align-middle">0 GB</td>
           <td className="align-middle">
             <InputGroup size="sm">
-              <Button outline size="sm" color="danger">Unpin</Button>
+              <Button outline size="sm" color="danger" onClick={this.removePinClicked.bind(this, key)}>Unpin</Button>
             </InputGroup>
           </td>
         </tr>
@@ -54,7 +66,7 @@ class Manage extends Component {
           <Button outline color="primary" size="sm" onClick={this.addPinClicked}>+ Pin</Button>{' '}
           <Button outline color="secondary" size="sm" onClick={this.refreshClicked}>⟳ Refresh</Button>
 
-          <Table hover striped bordered>
+          <Table hover striped bordered className="mt-3">
               <thead>
                   <tr>
                       <th scope="col">Hash</th>
@@ -66,6 +78,8 @@ class Manage extends Component {
                   {rows}
               </tbody>
           </Table>
+
+          <AddPinModal isOpen={this.state.addPinModalIsOpen} onDismiss={this.addPinModalDismissed}/>
       </Container>
     );
   }
