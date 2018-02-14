@@ -2,7 +2,12 @@ var firebaseAdmin = require("firebase-admin");
 const Web3 = require('web3');
 const fs = require("fs");
 var request = require('request');
-var ipfsAPI = require('ipfs-api')
+var ipfsAPI = require('ipfs-api');
+
+// TODO: use from constants file
+const PRICE_WEI_PER_GB_DAY = 500000000000000/31;
+const PRICE_WEI_PER_GB_HOUR = PRICE_WEI_PER_GB_DAY/24;
+
 
 // initialize the IPFS API - using local instance of IPFS as provider
 var ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'});
@@ -47,13 +52,12 @@ database.ref('/users/').once('value').then(function(usersSnapshot) {
 
       database.ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
         const usage = usageSnapshot.val();
-        const consumed = usage.consumed;
+        let consumed = usage.consumed;
 
         console.log("[INFO] - [" + uid + "] has consumed: " + consumed);
 
-        let remainingBalance = balance - consumed;
 
-        console.log("[INFO] - [" + uid + "] has remaining: " + remainingBalance);
+        console.log("[INFO] - [" + uid + "] has remaining: " + String(balance - consumed));
 
         console.log("[INFO] - [" + uid + "] Iterating through pins");
 
@@ -67,9 +71,38 @@ database.ref('/users/').once('value').then(function(usersSnapshot) {
             ipfs.object.stat(fileHash, function(err, stats){
               if (!err) {
                 // convert size to GB
-                const fileSize = stat.CumulativeSize/1000000000;
+                const fileSize = stats.CumulativeSize/1000000000;
 
-                console.log("[INFO] - [" + uid + "] [" + fileHash + "] has size " + fileSize);
+                // calculate the cost to pin this for the next hour
+                const cost = PRICE_WEI_PER_GB_HOUR * fileSize;
+
+                console.log("[INFO] - [" + uid + "] [" + fileHash + "] has size " + fileSize + " GB");
+                console.log("[INFO] - [" + uid + "] [" + fileHash + "] will cost " + cost + " wei / hour");
+
+
+                if ((balance - consumed) > cost) {
+                  // update consumed, and persist to database.
+                  consumed += cost;
+                  database.ref('/usage/' + uid).update({"consumed": consumed});
+
+                  console.log("[INFO] - [" + uid + "] [" + fileHash + "] updating consumed balance: " + consumed);
+
+                  ipfs.pin.add(fileHash, function (err, result) {
+                    if (err) {
+                      console.log("Error adding pin: " + err);
+                    } else {
+                      console.log("[INFO] - [" + uid + "] [" + fileHash + "] successfully pinned!");
+                    }
+                  });
+                } else {
+                  ipfs.pin.remove(fileHash, function (err, result) {
+                    if (err) {
+                      console.log("Error removing pin: " + err);
+                    } else {
+                      console.log("[INFO] - [" + uid + "] [" + fileHash + "] balance INSUFFICIENT - pin removed!");
+                    }
+                  });
+                }
               }
             });
           }

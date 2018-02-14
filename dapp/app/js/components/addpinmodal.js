@@ -52,9 +52,9 @@ class AddPinModal extends Component {
     this.setState({fileHash: fileHash});
 
     // fetch file size
-    this.ipfs.object.stat(fileHash, function(err, stat) {
+    this.ipfs.object.stat(fileHash, function(err, stats) {
       if (!err) {
-        console.log("Retrieved IPFS object stat: " + stat);
+        console.log("Retrieved IPFS object stat: " + stats);
 
         // convert size to GB
         const fileSize = stat.CumulativeSize/1000000000;
