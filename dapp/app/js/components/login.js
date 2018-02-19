@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Button, FormGroup, Form, Input, Label } from 'reactstrap';
 import firebase from 'firebase';
+import { toast } from 'react-toastify';
 
 class Login extends Component {
   constructor(props) {
@@ -8,20 +9,32 @@ class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      stayLoggedIn: false
     };
 
     this.loginClicked = this.loginClicked.bind(this);
     this.signupClicked = this.signupClicked.bind(this);
     this.emailChanged = this.emailChanged.bind(this);
     this.passwordChanged = this.passwordChanged.bind(this);
+    this.stayLoggedInChanged = this.stayLoggedInChanged.bind(this);
+  }
+
+  stayLoggedInChanged(evt) {
+    this.setState({stayLoggedIn: evt.target.checked});
   }
 
   loginClicked() {
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
-      this.props.history.push('/manage');
-    }.bind(this), function(error) {
-      console.log('Erorr logging in: ' + error);
+    const persistenceLevel = this.state.stayLoggedIn ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
+
+    firebase.auth().setPersistence(persistenceLevel).then(function() {
+
+      firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
+        this.props.history.push('/manage');
+      }.bind(this), function(error) {
+        toast.error(error.message);
+      }.bind(this));
+
     }.bind(this));
   }
 
@@ -34,7 +47,7 @@ class Login extends Component {
         this.props.history.push('/manage');
       }.bind(this));
     }.bind(this), function(error) {
-      console.log('Erorr signing up: ' + error);
+      toast.error(error.message);
     }.bind(this));
   }
 
@@ -49,25 +62,25 @@ class Login extends Component {
   render() {
     return (
       <Container>
-          <Form>
-              <FormGroup>
-                  <Label for="email">Email address</Label>
-                  <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
-                  <small className="form-text text-muted">We will never share your email with anyone else.</small>
-              </FormGroup>
-              <FormGroup>
-                  <Label for="pass">Password</Label>
-                  <Input id="pass" type="password" placeholder="Password" onChange={this.passwordChanged}/>
-              </FormGroup>
-              <FormGroup check>
-                  <Label check>
-                    <Input type="checkbox" />{' '}
-                    Keep me logged in
-                  </Label>
-              </FormGroup>
-              <Button outline color="primary" onClick={this.loginClicked}>Login</Button>{' '}
-              <Button outline color="secondary" onClick={this.signupClicked}>Signup</Button>
-          </Form>
+        <Form>
+          <FormGroup>
+            <Label for="email">Email address</Label>
+            <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
+            <small className="form-text text-muted">We will never share your email with anyone else.</small>
+          </FormGroup>
+          <FormGroup>
+            <Label for="pass">Password</Label>
+            <Input id="pass" type="password" placeholder="Password" onChange={this.passwordChanged}/>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+            <Input type="checkbox" onChange={this.stayLoggedInChanged}/>{' '}
+              Keep me logged in
+            </Label>
+          </FormGroup>
+          <Button outline color="primary" onClick={this.loginClicked}>Login</Button>{' '}
+          <Button outline color="secondary" onClick={this.signupClicked}>Signup</Button>
+        </Form>
       </Container>
     );
   }

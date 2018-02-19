@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Table, InputGroup } from 'reactstrap';
+import { Container, Button, Table, InputGroup, Badge } from 'reactstrap';
 import firebase from 'firebase';
 import AddPinModal from './addpinmodal.js';
 
@@ -52,6 +52,7 @@ class Manage extends Component {
         <tr key={key}>
           <td className="align-middle">/ipfs/{pin['fileHash']}</td>
           <td className="align-middle">0 GB</td>
+          <th className="align-middle"><Badge color="success">Pinned</Badge></th>
           <td className="align-middle">
             <InputGroup size="sm">
               <Button outline size="sm" color="danger" onClick={this.removePinClicked.bind(this, key)}>Unpin</Button>
@@ -71,6 +72,7 @@ class Manage extends Component {
                   <tr>
                       <th scope="col">Hash</th>
                       <th scope="col">Size</th>
+                      <th scope="col">Status</th>
                       <th scope="col">Actions</th>
                   </tr>
               </thead>

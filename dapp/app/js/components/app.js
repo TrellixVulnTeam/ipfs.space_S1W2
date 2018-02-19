@@ -4,6 +4,7 @@ import {
   Container, Navbar, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown,
   DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
+import { ToastContainer } from 'react-toastify';
 import EmbarkJS from 'Embark/EmbarkJS';
 import AppContract from 'Embark/contracts/AppContract';
 import firebase from 'firebase';
@@ -12,6 +13,7 @@ import Manage from "./manage.js";
 import Login from "./login.js";
 import Help from "./help.js";
 import DepositModal from "./depositmodal.js";
+
 
 class App extends Component {
   constructor(props) {
@@ -113,6 +115,8 @@ class App extends Component {
 
     return (
       <Container>
+        <ToastContainer/>
+
         <Navbar>
           <NavbarBrand tag={Link} to="/">🚀 ipfs.space</NavbarBrand>
           {nav}
