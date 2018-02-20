@@ -5,6 +5,7 @@ import {
 } from 'reactstrap';
 import firebase from 'firebase';
 import IPFS from 'ipfs';
+import { toast } from 'react-toastify';
 
 class AddPinModal extends Component {
   constructor(props) {
@@ -32,9 +33,15 @@ class AddPinModal extends Component {
     firebase.database().ref('/pins/' + uid).push({"fileHash": fileHash});
 
     this.notifyDismiss();
+    toast.success("Pin successfully added");
   }
 
   cancelClicked() {
+    this.setState({
+      fileHash: "",
+      fileSize: 0
+    });
+
     this.notifyDismiss();
   }
 
@@ -57,7 +64,7 @@ class AddPinModal extends Component {
         console.log("Retrieved IPFS object stat: " + stats);
 
         // convert size to GB
-        const fileSize = stat.CumulativeSize/1000000000;
+        const fileSize = stats.CumulativeSize/1000000000;
         this.setState({fileSize: fileSize});
       } else {
         console.log("Error fetching IPFS object stat: " + err);
@@ -68,7 +75,7 @@ class AddPinModal extends Component {
   render() {
     return (
       <Modal isOpen={this.props.isOpen}>
-        <ModalHeader>Deposit</ModalHeader>
+        <ModalHeader>Add Pin</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

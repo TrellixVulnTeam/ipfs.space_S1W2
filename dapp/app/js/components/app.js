@@ -4,7 +4,7 @@ import {
   Container, Navbar, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown,
   DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import EmbarkJS from 'Embark/EmbarkJS';
 import AppContract from 'Embark/contracts/AppContract';
 import firebase from 'firebase';
@@ -62,13 +62,24 @@ class App extends Component {
   }
 
   refreshBalance() {
-    var uid = firebase.auth().currentUser.uid;
-    AppContract.methods.getBalance(uid).call(function(err, balance) {
-      if (err) {
-        console.log("Error getting balance: " + err);
-      } else {
-        this.setState({accountBalance: balance})
-      }
+    firebase.auth().onAuthStateChanged(function(user) {
+      const uid = user.uid;
+
+      // Get balance from blockchain
+      AppContract.methods.getBalance(uid).call(function(err, balance) {
+        if (!err) {
+          // Get usage from the DB and calculate remaining balance
+          database.ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
+            const usage = usageSnapshot.val();
+            const consumed = (usage && usage.consumed) ? usage.consumed : 0;
+
+            const remainingBalance = balance - consumed;
+
+            this.setState({accountBalance: remainingBalance});
+        } else {
+          toast.error("Error refreshing balance: " + err);
+        }.bind(this));
+      }.bind(this));
     }.bind(this));
   }
 
@@ -85,15 +96,14 @@ class App extends Component {
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>Balance: {web3.utils.fromWei(String(this.state.accountBalance), 'ether')} ETH</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem href="#" onClick={this.depositClicked}>Deposit</DropdownItem>
-              <DropdownItem href="#">Activity</DropdownItem>
+              <DropdownItem href="" onClick={this.depositClicked}>Deposit</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
           <NavItem>
             <NavLink tag={Link} to="/manage">Manage</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink tag={Link} to="#" onClick={this.logoutClicked}>Logout</NavLink>
+            <NavLink tag={Link} to="" onClick={this.logoutClicked}>Logout</NavLink>
           </NavItem>
           <NavItem>
             <NavLink tag={Link} to="/help">Help</NavLink>

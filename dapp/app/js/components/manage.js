@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Button, Table, InputGroup, Badge } from 'reactstrap';
 import firebase from 'firebase';
 import AddPinModal from './addpinmodal.js';
+import { toast } from 'react-toastify';
 
 class Manage extends Component {
 
@@ -19,11 +20,18 @@ class Manage extends Component {
     this.addPinModalDismissed = this.addPinModalDismissed.bind(this);
   }
 
+  componentWillMount() {
+    this.refreshPins();
+  }
+
   refreshPins() {
-    const uid = firebase.auth().currentUser.uid;
-    firebase.database().ref('/pins/' + uid).once('value').then(function(snapshot) {
-      const pins = snapshot.val();
-      this.setState({pins: pins});
+    firebase.auth().onAuthStateChanged(function(user) {
+      const uid = user.uid;
+
+      firebase.database().ref('/pins/' + uid).once('value').then(function(snapshot) {
+        const pins = snapshot.val() || {};
+        this.setState({pins: pins});
+      }.bind(this));
     }.bind(this));
   }
 
@@ -35,6 +43,7 @@ class Manage extends Component {
     const uid = firebase.auth().currentUser.uid;
     firebase.database().ref('/pins/' + uid + '/' + key).remove();
     this.refreshPins();
+    toast.success("Pin successfully removed");
   }
 
   refreshClicked() {
@@ -43,6 +52,7 @@ class Manage extends Component {
 
   addPinModalDismissed() {
     this.setState({addPinModalIsOpen: false});
+    this.refreshPins();
   }
 
   render() {

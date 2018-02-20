@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import Constants from './constants.js';
 import EmbarkJS from 'Embark/EmbarkJS';
 import AppContract from 'Embark/contracts/AppContract';
+import { toast } from 'react-toastify';
 
 class DepositModal extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class DepositModal extends Component {
     this.cancelClicked = this.cancelClicked.bind(this);
     this.payClicked = this.payClicked.bind(this);
     this.amountChanged = this.amountChanged.bind(this);
+    this.notifyDismiss = this.notifyDismiss.bind(this);
   }
 
   cancelClicked(evt) {
@@ -28,6 +30,10 @@ class DepositModal extends Component {
       dollarEstimate: 0
     });
 
+    this.notifyDismiss();
+  }
+
+  notifyDismiss() {
     // notify that modal has been dismissed.
     if (typeof this.props.onDismiss === 'function') {
       this.props.onDismiss();
@@ -49,8 +55,9 @@ class DepositModal extends Component {
         value: wei,
         gas: 900000
       }).then(function(){
-        console.log("Deposit successful: " + wei);
-      });
+        this.notifyDismiss();
+        toast.success("Successfully deposited " + amount + " ETH");
+      }.bind(this));
     }.bind(this));
   }
 
