@@ -27,7 +27,7 @@ class App extends Component {
 
     this.logoutClicked = this.logoutClicked.bind(this);
     this.depositClicked = this.depositClicked.bind(this);
-    this.onDepositModalDismissed = this.onDepositModalDismissed.bind(this);
+    this.depositModalDismissed = this.depositModalDismissed.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
 
     const config = {
@@ -68,22 +68,39 @@ class App extends Component {
       // Get balance from blockchain
       AppContract.methods.getBalance(uid).call(function(err, balance) {
         if (!err) {
-          // Get usage from the DB and calculate remaining balance
-          database.ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
+          // "balance" comes back as a string for some reason... so we cast it
+          // to a number here.
+          const deposited = Number(balance);
+
+          // Get usage from the DB to calculate remaining balance
+          firebase.database().ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
             const usage = usageSnapshot.val();
             const consumed = (usage && usage.consumed) ? usage.consumed : 0;
 
-            const remainingBalance = balance - consumed;
+            // calculate remaining balance
+            const remainingBalance = deposited - consumed;
 
+            // update state
             this.setState({accountBalance: remainingBalance});
+          }.bind(this));
+
         } else {
-          toast.error("Error refreshing balance: " + err);
-        }.bind(this));
+          console.log("Error retrieving balance from blockchain..." + err);
+          toast.error("Error refreshing balance");
+        }
       }.bind(this));
     }.bind(this));
   }
 
-  onDepositModalDismissed() {
+  prettifyBalance(balance) {
+    // Convert balance to ether
+    const ether = Number(web3.utils.fromWei(String(balance), 'ether'));
+
+    // truncate value to 3 decimal places
+    return Math.trunc(ether * 1000) / 1000;
+  }
+
+  depositModalDismissed() {
     this.setState({depositModalIsOpen: false});
   }
 
@@ -94,7 +111,7 @@ class App extends Component {
       nav = (
         <Nav>
           <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>Balance: {web3.utils.fromWei(String(this.state.accountBalance), 'ether')} ETH</DropdownToggle>
+            <DropdownToggle nav caret>Balance: {this.prettifyBalance(this.state.accountBalance)} ETH</DropdownToggle>
             <DropdownMenu>
               <DropdownItem href="" onClick={this.depositClicked}>Deposit</DropdownItem>
             </DropdownMenu>
@@ -139,7 +156,7 @@ class App extends Component {
           <Route path="/help" component={Help}/>
         </Container>
 
-        <DepositModal isOpen={this.state.depositModalIsOpen} onDismiss={this.onDepositModalDismissed}/>
+        <DepositModal isOpen={this.state.depositModalIsOpen} onDismiss={this.depositModalDismissed}/>
       </Container>
     );
   }

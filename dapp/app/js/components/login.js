@@ -62,7 +62,7 @@ class Login extends Component {
   render() {
     return (
       <Container>
-        <Form>
+        <Form onSubmit={this.loginClicked}>
           <FormGroup>
             <Label for="email">Email address</Label>
             <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
