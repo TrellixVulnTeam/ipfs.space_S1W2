@@ -19,15 +19,16 @@
     "babel-preset-es2016": "^6.24.1",
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "bootstrap": "4.0.0",
-    "firebase": "^4.9.1",
+    "bootstrap": "4.0.0-beta.2",
+    "firebase": "^4.10.0",
     "ipfs": "^0.27.7",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router": "^4.2.0",
+    "react": "16.1.1",
+    "react-dom": "16.1.1",
+    "react-router": "4.2.0",
     "react-router-dom": "^4.2.2",
     "react-toastify": "^3.3.4",
-    "reactstrap": "^5.0.0-beta",
-    "webpack": "^3.11.0"
+    "reactstrap": "5.0.0-beta",
+    "webpack": "^3.11.0",
+    "lodash": "*"
   }
 }

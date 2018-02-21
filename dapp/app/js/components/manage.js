@@ -25,14 +25,15 @@ class Manage extends Component {
   }
 
   refreshPins() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    const user = firebase.auth().currentUser;
+    if (user) {
       const uid = user.uid;
 
       firebase.database().ref('/pins/' + uid).once('value').then(function(snapshot) {
         const pins = snapshot.val() || {};
         this.setState({pins: pins});
       }.bind(this));
-    }.bind(this));
+    }
   }
 
   addPinClicked() {
@@ -40,10 +41,13 @@ class Manage extends Component {
   }
 
   removePinClicked(key) {
-    const uid = firebase.auth().currentUser.uid;
-    firebase.database().ref('/pins/' + uid + '/' + key).remove();
-    this.refreshPins();
-    toast.success("Pin successfully removed");
+    const user = firebase.auth().currentUser;
+    if (user) {
+      const uid = user.uid;
+      firebase.database().ref('/pins/' + uid + '/' + key).remove();
+      this.refreshPins();
+      toast.success("Pin successfully removed");
+    }
   }
 
   refreshClicked() {

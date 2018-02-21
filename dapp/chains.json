@@ -25,5 +25,50 @@
       }
     },
     "name": "development"
+  },
+  "0x25410528628f59822906ac1a5c1b02fdac24daa62e1db10e49e3b562862c3de2": {
+    "contracts": {
+      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
+        "name": "AppContract",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
+  },
+  "0x6e37593caf20083e23ddfd79b3399a9971925248b73b2e1094eecaafc9d0f9b2": {
+    "contracts": {
+      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
+        "name": "AppContract",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
+  },
+  "0x78ff7733c613c3d9cbb3538fcfd053f6a009eb913742d643e0ce9ed408a3e962": {
+    "contracts": {
+      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
+        "name": "AppContract",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
+  },
+  "0x800ba6ccb7f48afa75382cd1202f6e4868dc278ef00c13607671610c8b3300e5": {
+    "contracts": {
+      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
+        "name": "AppContract",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
+  },
+  "0xd57a15e599b56f64a1e2470cc27c72fad0723cd309dd10c0d7f8fa6e3edaa656": {
+    "contracts": {
+      "0xea6a26575450c60a656a416d3fca98279f64a41d30993b89b0c611addcbd5fef": {
+        "name": "AppContract",
+        "address": "0x04D45b51fe4f00b4478F8b0719Fa779f14c8A194"
+      }
+    },
+    "name": "development"
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom";
 import { Container, Button, FormGroup, Form, Input, Label } from 'reactstrap';
 import firebase from 'firebase';
 import { toast } from 'react-toastify';
@@ -30,7 +31,7 @@ class Login extends Component {
     firebase.auth().setPersistence(persistenceLevel).then(function() {
 
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function() {
-        this.props.history.push('/manage');
+        console.log("Logged in successfully");
       }.bind(this), function(error) {
         toast.error(error.message);
       }.bind(this));
@@ -44,7 +45,7 @@ class Login extends Component {
         uid: user.uid,
         email: user.email
       }).then(function(){
-        this.props.history.push('/manage');
+        console.log("Signed up successfully");
       }.bind(this));
     }.bind(this), function(error) {
       toast.error(error.message);
@@ -60,29 +61,35 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <Form onSubmit={this.loginClicked}>
-          <FormGroup>
-            <Label for="email">Email address</Label>
-            <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
-            <small className="form-text text-muted">We will never share your email with anyone else.</small>
-          </FormGroup>
-          <FormGroup>
-            <Label for="pass">Password</Label>
-            <Input id="pass" type="password" placeholder="Password" onChange={this.passwordChanged}/>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-            <Input type="checkbox" onChange={this.stayLoggedInChanged}/>{' '}
-              Keep me logged in
-            </Label>
-          </FormGroup>
-          <Button outline color="primary" onClick={this.loginClicked}>Login</Button>{' '}
-          <Button outline color="secondary" onClick={this.signupClicked}>Signup</Button>
-        </Form>
-      </Container>
-    );
+    if (firebase.auth().currentUser) {
+      return (
+        <Redirect to={{pathname: "/manage", state: {from: "/login"}}}/>
+      )
+    } else {
+      return (
+        <Container>
+          <Form>
+            <FormGroup>
+              <Label for="email">Email address</Label>
+              <Input id="email" type="email" placeholder="Enter email" onChange={this.emailChanged}/>
+              <small className="form-text text-muted">We will never share your email with anyone else.</small>
+            </FormGroup>
+            <FormGroup>
+              <Label for="pass">Password</Label>
+              <Input id="pass" type="password" placeholder="Password" onChange={this.passwordChanged}/>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+              <Input type="checkbox" onChange={this.stayLoggedInChanged}/>{' '}
+                Keep me logged in
+              </Label>
+            </FormGroup>
+            <Button outline color="primary" onClick={this.loginClicked}>Login</Button>{' '}
+            <Button outline color="secondary" onClick={this.signupClicked}>Signup</Button>
+          </Form>
+        </Container>
+      );
+    }
   }
 }
 

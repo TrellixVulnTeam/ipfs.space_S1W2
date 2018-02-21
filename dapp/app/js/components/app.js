@@ -13,14 +13,14 @@ import Manage from "./manage.js";
 import Login from "./login.js";
 import Help from "./help.js";
 import DepositModal from "./depositmodal.js";
-
+import PrivateRoute from "./privateroute.js";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoggedIn: true,
+      isLoggedIn: false,
       depositModalIsOpen: false,
       accountBalance: 0
     };
@@ -30,25 +30,28 @@ class App extends Component {
     this.depositModalDismissed = this.depositModalDismissed.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
 
-    const config = {
-        apiKey: "AIzaSyDyAmz2ahqbA4JN4xDydRij7ju3m6_QxhQ",
-        authDomain: "ipfs-space.firebaseapp.com",
-        databaseURL: "https://ipfs-space.firebaseio.com",
-        projectId: "ipfs-space",
-        storageBucket: "ipfs-space.appspot.com",
-        messagingSenderId: "598908228635"
-    };
-
-    firebase.initializeApp(config);
-
+    // Observe when users log in and out (we will re-render the nav links)
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         this.setState({isLoggedIn: true});
-        this.refreshBalance();
       } else {
         this.setState({isLoggedIn: false});
       }
     }.bind(this));
+  }
+
+  componentWillMount() {
+    // // Make sure the user has metamask installed and it is activated.
+    // web3.eth.getAccounts().then(function(accounts) {
+    //
+    //   if (!accounts || accounts.length == 0) {
+    //     // Not logged into MetaMask. Send them to the help page to get setup.
+    //     this.props.history.push('/help');
+    //   } else {
+    //     // Check the user's logged in state and update the navbar.
+    //
+    //   }
+    // }.bind(this));
   }
 
   logoutClicked() {
@@ -62,34 +65,36 @@ class App extends Component {
   }
 
   refreshBalance() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      const uid = user.uid;
+      const user = firebase.auth().currentUser;
 
-      // Get balance from blockchain
-      AppContract.methods.getBalance(uid).call(function(err, balance) {
-        if (!err) {
-          // "balance" comes back as a string for some reason... so we cast it
-          // to a number here.
-          const deposited = Number(balance);
+      if (user) {
+        const uid = user.uid;
 
-          // Get usage from the DB to calculate remaining balance
-          firebase.database().ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
-            const usage = usageSnapshot.val();
-            const consumed = (usage && usage.consumed) ? usage.consumed : 0;
+        // Get balance from blockchain
+        AppContract.methods.getBalance(uid).call(function(err, balance) {
+          if (!err) {
+            // "balance" comes back as a string for some reason... so we cast it
+            // to a number here.
+            const deposited = Number(balance);
 
-            // calculate remaining balance
-            const remainingBalance = deposited - consumed;
+            // Get usage from the DB to calculate remaining balance
+            firebase.database().ref('/usage/' + uid).once('value').then(function(usageSnapshot) {
+              const usage = usageSnapshot.val();
+              const consumed = (usage && usage.consumed) ? usage.consumed : 0;
 
-            // update state
-            this.setState({accountBalance: remainingBalance});
-          }.bind(this));
+              // calculate remaining balance
+              const remainingBalance = deposited - consumed;
 
-        } else {
-          console.log("Error retrieving balance from blockchain..." + err);
-          toast.error("Error refreshing balance");
-        }
+              // update state
+              this.setState({accountBalance: remainingBalance});
+            }.bind(this));
+
+          } else {
+            console.log("Error retrieving balance from blockchain..." + err);
+            toast.error("Error refreshing balance");
+          }
       }.bind(this));
-    }.bind(this));
+    }
   }
 
   prettifyBalance(balance) {
@@ -151,7 +156,7 @@ class App extends Component {
 
         <Container>
           <Route exact path="/" component={Home}/>
-          <Route path="/manage" component={Manage}/>
+          <PrivateRoute path="/manage" component={Manage} isLoggedIn={this.state.isLoggedIn}/>
           <Route path="/login" component={Login}/>
           <Route path="/help" component={Help}/>
         </Container>
